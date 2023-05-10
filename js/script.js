@@ -1,70 +1,47 @@
-function game() {
-    let computerWinCount = 0;
-    let playerWinCount = 0;
-
-    function getComputerChoice() {
-        let computerChoice;
-        let randomNumber = Math.floor((Math.random() * 3) + 1)
-        if (randomNumber === 1) {
-            computerChoice = 'rock'
-            return computerChoice;
-
-        } else if (randomNumber === 2) {
-            computerChoice = 'paper'
-            return computerChoice
-
-        } else if (randomNumber === 3) {
-            computerChoice = 'scissors'
-            return computerChoice
-        }
-    }
-
-    function playRockPaperScissors(computerSelection, playerSelection) {
-        
-        if (computerSelection === playerSelection) {
-            return `It is a draw - ${computerSelection} and ${playerSelection} is the same`;
-
-        } else if (computerSelection === 'rock' && playerSelection === 'paper') {
-            playerWinCount++
-            return `You Win! ${computerSelection} beats ${playerSelection}`
-
-        } else if (computerSelection === 'paper' && playerSelection === 'scissors') {
-            playerWinCount++
-            return `You Win! ${computerSelection} beats ${playerSelection}`
-
-        } else if (computerSelection === 'scissors' && playerSelection === 'rock') {
-            playerWinCount++
-            return `You Win! ${computerSelection} beats ${playerSelection}`
-
-        } else if (computerSelection === 'rock' && playerSelection === 'scissors') {
-            computerWinCount++
-            return `You Lose! ${computerSelection} beats ${playerSelection}`
-
-        } else if (computerSelection === 'paper' && playerSelection === 'rock') {
-            computerWinCount++
-            return `You Lose! ${computerSelection} beats ${playerSelection}`
-
-        } else if (computerSelection === 'scissors' && playerSelection === 'paper') {
-            computerWinCount++
-            return `You Lose! ${computerSelection} beats ${playerSelection}`
-        }
-    }
-
-    const computerChoices = getComputerChoice();
-    const playerChoices = prompt('Pick your choice: rock, paper or scissors').toLowerCase();
-
-    console.log(`Computer Choice: ${computerChoices}`);
-    console.log(`Your Choice: ${playerChoices}`);
-    console.log(playRockPaperScissors(computerChoices, playerChoices));
-
-    console.log (`Player Score: ${playerWinCount}`);
-    console.log (`Computer Score: ${computerWinCount}`);
-    console.log('*********************************************************************************')
+function getComputerChoice() {
+	const choices = ['Rock', 'Paper', 'Scissors'];
+	const randomIndex = Math.floor(Math.random() * choices.length);
+	return choices[randomIndex];
 }
 
-game()
-game()
-game()
-game()
-game()
+function playRound(playerSelection, computerSelection) {
+	playerSelection = playerSelection.toLowerCase();
+	
+	if (playerSelection === computerSelection.toLowerCase()) {
+		return "It's a tie!";
+	} else if (playerSelection === 'rock' && computerSelection === 'Scissors' || 
+			   playerSelection === 'paper' && computerSelection === 'Rock' || 
+			   playerSelection === 'scissors' && computerSelection === 'Paper') {
+		return `You win! ${playerSelection} beats ${computerSelection}.`;
+	} else {
+		return `You lose! ${computerSelection} beats ${playerSelection}.`;
+	}
+}
 
+function game() {
+	let playerScore = 0;
+	let computerScore = 0;
+	
+	for (let i = 1; i <= 5; i++) {
+		const playerSelection = prompt(`Round ${i}: Choose Rock, Paper or Scissors`);
+		const computerSelection = getComputerChoice();
+		const result = playRound(playerSelection, computerSelection);
+		console.log(result);
+		
+		if (result.startsWith('You win')) {
+			playerScore++;
+		} else if (result.startsWith('You lose')) {
+			computerScore++;
+		}
+	}
+	
+	if (playerScore > computerScore) {
+		console.log(`You won the game! Final score: ${playerScore}-${computerScore}`);
+	} else if (playerScore < computerScore) {
+		console.log(`You lost the game! Final score: ${playerScore}-${computerScore}`);
+	} else {
+		console.log(`It's a tie! Final score: ${playerScore}-${computerScore}`);
+	}
+}
+
+game();
