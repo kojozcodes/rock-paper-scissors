@@ -1,7 +1,13 @@
-const resultBox = document.querySelector(".result-box");
-
 let playerScore = 0;
 let computerScore = 0;
+
+const resultBox = document.querySelector(".result-box");
+const gameResult = document.createElement("div");
+gameResult.textContent = `${playerScore} - ${computerScore}`;
+resultBox.appendChild(gameResult);
+
+const resultText = document.createElement("p");
+resultText.textContent = "";
 
 function getComputerChoice() {
 	const choices = ['Rock', 'Paper', 'Scissors'];
@@ -32,13 +38,15 @@ const scissorsButton = document.querySelector(".scissors");
 rockButton.addEventListener("click", () => {
 	const playerSelection = rockButton.innerText;
 	const computerSelection = getComputerChoice();
-	result = playRound(playerSelection, computerSelection);
-	console.log(result);
+	gameResult.textContent = `${playerScore} - ${computerScore}`;
+	resultText.textContent = playRound(playerSelection, computerSelection);
+	gameResult.appendChild(resultText);
 	console.log(playerScore);
 	console.log(computerScore);
 })
 
-paperButton.addEventListener("click", () => {
+paperButton.addEventListener("click", (event) => {
+	event.preventDefault
 	const playerSelection = paperButton.innerText;
 	const computerSelection = getComputerChoice();
 	result = playRound(playerSelection, computerSelection);
@@ -47,7 +55,8 @@ paperButton.addEventListener("click", () => {
 	console.log(computerScore);
 })
 
-scissorsButton.addEventListener("click", () => {
+scissorsButton.addEventListener("click", (event) => {
+	event.preventDefault
 	const playerSelection = scissorsButton.innerText;
 	const computerSelection = getComputerChoice();
 	result = playRound(playerSelection, computerSelection);
