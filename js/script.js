@@ -6,7 +6,7 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
 	playerSelection = playerSelection.toLowerCase();
-	
+
 	if (playerSelection === computerSelection.toLowerCase()) {
 		return "It's a tie!";
 	} else if (playerSelection === 'rock' && computerSelection === 'Scissors' || 
