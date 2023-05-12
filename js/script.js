@@ -1,3 +1,20 @@
+let playerScore = 0;
+let computerScore = 0;
+
+const resultBox = document.querySelector(".result-box");
+const gameResult = document.createElement("div");
+gameResult.textContent = `${playerScore} - ${computerScore}`;
+resultBox.appendChild(gameResult);
+gameResult.classList.add("game-result");
+
+const resultText = document.createElement("p");
+resultText.textContent = "";
+resultText.classList.add("result-text");
+
+const winnerDeclaration = document.createElement("p");
+winnerDeclaration.textContent = "";
+winnerDeclaration.classList.add("winner-declaration");
+
 function getComputerChoice() {
 	const choices = ['Rock', 'Paper', 'Scissors'];
 	const randomIndex = Math.floor(Math.random() * choices.length);
@@ -6,42 +23,78 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
 	playerSelection = playerSelection.toLowerCase();
-
 	if (playerSelection === computerSelection.toLowerCase()) {
 		return "It's a tie!";
 	} else if (playerSelection === 'rock' && computerSelection === 'Scissors' || 
 			   playerSelection === 'paper' && computerSelection === 'Rock' || 
 			   playerSelection === 'scissors' && computerSelection === 'Paper') {
+		playerScore++
 		return `You win! ${playerSelection} beats ${computerSelection}.`;
 	} else {
+		computerScore++
 		return `You lose! ${computerSelection} beats ${playerSelection}.`;
 	}
 }
 
-function game() {
-	let playerScore = 0;
-	let computerScore = 0;
-	
-	for (let i = 1; i <= 5; i++) {
-		const playerSelection = prompt(`Round ${i}: Choose Rock, Paper or Scissors`);
-		const computerSelection = getComputerChoice();
-		const result = playRound(playerSelection, computerSelection);
-		console.log(result);
-		
-		if (result.startsWith('You win')) {
-			playerScore++;
-		} else if (result.startsWith('You lose')) {
-			computerScore++;
+const rockButton = document.querySelector(".rock");
+const paperButton = document.querySelector(".paper");
+const scissorsButton = document.querySelector(".scissors");
+
+rockButton.addEventListener("click", () => {
+	const playerSelection = rockButton.innerText;
+	const computerSelection = getComputerChoice();
+	resultText.textContent = playRound(playerSelection, computerSelection);
+	gameResult.textContent = `${playerScore} - ${computerScore}`;
+	resultBox.appendChild(resultText);
+	console.log(playerScore);
+	console.log(computerScore);
+	endGame();
+})
+
+paperButton.addEventListener("click", (event) => {
+	event.preventDefault
+	const playerSelection = paperButton.innerText;
+	const computerSelection = getComputerChoice();
+	resultText.textContent = playRound(playerSelection, computerSelection);
+	gameResult.textContent = `${playerScore} - ${computerScore}`;
+	resultBox.appendChild(resultText);
+	console.log(playerScore);
+	console.log(computerScore);
+	endGame();
+})
+
+scissorsButton.addEventListener("click", (event) => {
+	event.preventDefault
+	const playerSelection = scissorsButton.innerText;
+	const computerSelection = getComputerChoice();
+	resultText.textContent = playRound(playerSelection, computerSelection);
+	gameResult.textContent = `${playerScore} - ${computerScore}`;
+	resultBox.appendChild(resultText);
+	console.log(playerScore);
+	console.log(computerScore);
+	endGame();
+})
+
+function endGame() {
+	if (playerScore === 5 || computerScore === 5)  {
+		rockButton.disabled = true;
+		paperButton.disabled = true;
+		scissorsButton.disabled = true;
+		if (playerScore >= 5) {
+			winnerDeclaration.textContent = "You won the game!";
+			resultBox.appendChild(winnerDeclaration);
+		} else if (computerScore >= 5) {
+			winnerDeclaration.textContent = "You lost the game!";
+			resultBox.appendChild(winnerDeclaration);
 		}
-	}
-	
-	if (playerScore > computerScore) {
-		console.log(`You won the game! Final score: ${playerScore}-${computerScore}`);
-	} else if (playerScore < computerScore) {
-		console.log(`You lost the game! Final score: ${playerScore}-${computerScore}`);
-	} else {
-		console.log(`It's a tie! Final score: ${playerScore}-${computerScore}`);
+		const resetGameButton = document.createElement('button');
+		resetGameButton.textContent = "Reset Game";
+		resetGameButton.addEventListener("click", () => {
+			window.location.reload();
+		})
+		document.body.appendChild(resetGameButton);
+		console.log(resetGameButton);
 	}
 }
 
-game();
+
